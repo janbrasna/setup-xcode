@@ -18,7 +18,7 @@ The list of all available versions can be found in [runner-images](https://githu
 # Usage
 
 Set the latest stable Xcode version:
-```
+```yaml
 jobs:
   build:
     runs-on: macos-latest
@@ -29,7 +29,7 @@ jobs:
 ```
 
 Set the latest Xcode version including beta releases:
-```
+```yaml
 jobs:
   build:
     runs-on: macos-latest
@@ -40,7 +40,7 @@ jobs:
 ```
 
 Set the specific stable version of Xcode:
-```
+```yaml
 jobs:
   build:
     runs-on: macos-13
@@ -51,7 +51,7 @@ jobs:
 ```
 
 Set the specific beta version of Xcode:
-```
+```yaml
 jobs:
   build:
     runs-on: macos-13
@@ -60,5 +60,24 @@ jobs:
       with:
         xcode-version: '15.0-beta'
 ```
+
+# Outputs
+
+The action sets the selected `version` and its `path` to the outputs for further reference:
+```yaml
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+    - uses: maxim-lobanov/setup-xcode@v1
+      id: setup_xcode
+      with:
+        xcode-version: 16
+    - name: Echo selected Xcode values to environment variables
+      run: |
+        echo "XCODE_VERSION=${{ steps.setup_xcode.outputs.version }}" >> $GITHUB_ENV
+        echo "XCODE_PATH=${{ steps.setup_xcode.outputs.path }}" >> $GITHUB_ENV
+```
+
 # License
 The scripts and documentation in this project are released under the [MIT License](LICENSE)
